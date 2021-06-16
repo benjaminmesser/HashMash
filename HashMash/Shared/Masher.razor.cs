@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Blazorise;
 
 namespace HashMash.Shared
 {
@@ -12,14 +15,78 @@ namespace HashMash.Shared
 
     public partial class Masher
     {
-        //private MD5 _md5Hash;        // An MD5 object for MD5 hash calculation, unused as its broken
+        //private MD5 _md5Hash;  // An MD5 object for MD5 hash calculation, unused as its broken
         private SHA256 _sha256Hash = SHA256.Create();  // A SHA256 object for SHA256 hash calculation
 
-        public int bitShift { get; set; }
-        public int charOffset { get; set; }
-        public int modN { get; set; } = 1;      // Default 1 (no div by 0)
+        private int _bitShift { get; set; }
+        private int _charOffset { get; set; }
+        private int _modN { get; set; } = 1;  // Default 1 (no div by 0)
 
-        public string getHash(HashAlgorithm hashAlgorithm, string input)
+        private string _inputValue { get; set; } = "";
+        private bool _charOffsetEnabled { get; set; }
+        private bool _bitShiftEnabled { get; set; }
+        private bool _modNEnabled { get; set; }
+        private bool _sha256Enabled { get; set; }
+
+        private int _max_table_chars;  // max number of chars to show on the table; length of input or 8, whichever is less
+
+        Validations _validations;
+
+        // Check session storage for an existing state, set fields if one exists
+        protected override async Task OnInitializedAsync()
+        {
+
+            // Test input value for a stored session
+            if (await sessionStorage.ContainKeyAsync("masher"))
+            {
+                string jsonExisting = await sessionStorage.GetItemAsync<string>("masher");
+                Masher existing = JsonSerializer.Deserialize<Masher>(jsonExisting);
+
+                _inputValue = existing._inputValue;
+                _charOffset = existing._charOffset;
+                _bitShift = existing._bitShift;
+                _modN = existing._modN;
+                _charOffsetEnabled = existing._charOffsetEnabled;
+                _bitShiftEnabled = existing._bitShiftEnabled;
+                _modNEnabled = existing._modNEnabled;
+                _sha256Enabled = existing._sha256Enabled;
+            }
+            _max_table_chars = Math.Min(_inputValue.Length, 8);    // max number of chars to show on the table; length of input or 8, whichever is less
+        }
+
+        // To reflect changes in user input, as user changes the input
+        private void InputChanged(string value)
+        {
+
+            _max_table_chars = Math.Min(value.Length, 8);
+
+            _inputValue = value;
+
+            _validations.ValidateAll();
+
+            StoreState();
+        }
+
+        // Reset state (incl. sessionStorage) but keeps input intact
+        private void ResetState()
+        {
+            // Maybe show warning popup here before resetting
+
+            //reset();    // Reset the current masher, excluding user test input
+
+
+        }
+
+        // Store the state to session storage
+        private async void StoreState()
+        {
+            _validations.ValidateAll();
+            string serialized = JsonSerializer.Serialize(this);
+            await sessionStorage.SetItemAsync<string>("masher", serialized);
+
+        }
+
+        private string GetHash(HashAlgorithm hashAlgorithm, string input)
         {
             byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
             var sBuilder = new StringBuilder();
@@ -34,18 +101,18 @@ namespace HashMash.Shared
          * Given some input string, return "mashed" string with particular operations. Result should be the digest,
          * the hexadecimal representation of the string.
          */
-        private string mashInput()
+        private string MashInput()
         {
             string mashed = "";
             string step1 = "";
-            string potentialHash = inputValue;
+            string potentialHash = _inputValue;
             foreach (char ch in potentialHash)
             {
                 int c = ch; // need to copy current ch in foreach to manipulate
 
-                if (charOffsetEnabled) c += charOffset;
-                if (bitShiftEnabled) c <<= bitShift;
-                if (modNEnabled) c %= modN;
+                if (_charOffsetEnabled) c += _charOffset;
+                if (_bitShiftEnabled) c <<= _bitShift;
+                if (_modNEnabled) c %= _modN;
                 string a = Convert.ToString(c, 16);
                 if (a.Length > 1)
                 {
@@ -66,9 +133,9 @@ namespace HashMash.Shared
                 step1 = step1.Substring(0, 64);
             }
             mashed = step1;
-            if (sha256Enabled)
+            if (_sha256Enabled)
             {
-                mashed = getHash(_sha256Hash, mashed);
+                mashed = GetHash(_sha256Hash, mashed);
                 return mashed;
             }
             else
@@ -83,11 +150,11 @@ namespace HashMash.Shared
          * c is the char (as an int) being mashed
          * b is the base representation which we are converting to e.g. 10 (decimal), 2 (binary), 16 (hexa) etc.
          */
-        public string mashCh(int c, int b)
+        private string MashCh(int c, int b)
         {
-            if (charOffsetEnabled) c += charOffset;
-            if (bitShiftEnabled) c <<= bitShift;
-            if (modNEnabled) c %= modN;
+            if (_charOffsetEnabled) c += _charOffset;
+            if (_bitShiftEnabled) c <<= _bitShift;
+            if (_modNEnabled) c %= _modN;
             return Convert.ToString(c, b);
         }
 
