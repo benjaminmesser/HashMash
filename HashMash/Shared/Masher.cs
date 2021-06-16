@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Text;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace HashMash.Shared
 {
@@ -9,6 +9,7 @@ namespace HashMash.Shared
      *  The class will store a total count for every click the user has made to calculate their erspective level, which is also stored.
      *  As the user progresses through levels, the hashing will get more complex.
      */
+
     public partial class Masher
     {
 
@@ -18,11 +19,12 @@ namespace HashMash.Shared
         public int bitShift { get; set; }
         public int charOffset { get; set; }
         public int modN { get; set; } = 1;      // Default 1 (no div by 0)
-     
+
 
         /*
-         * 
+         *
          */
+
         public string getHash(HashAlgorithm hashAlgorithm, string input)
         {
             byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
@@ -34,13 +36,14 @@ namespace HashMash.Shared
             return sBuilder.ToString();
         }
 
-      
+
 
         /*
          * Given some input string, return "mashed" string with particular operations. Result should be the digest,
          * the hexadecimal representation of the string.
          */
-        string mashInput()
+
+        private string mashInput()
         {
             string mashed = "";
             string step1 = "";
@@ -53,19 +56,21 @@ namespace HashMash.Shared
                 if (bitShiftEnabled) c <<= bitShift;
                 if (modNEnabled) c %= modN;
                 string a = Convert.ToString(c, 16);
-                if (a.Length > 1) {
+                if (a.Length > 1)
+                {
                     step1 += a[0];
                     step1 += a[1];
-                } else
+                }
+                else
                 {
                     step1 += "0" + a;
                 }
             }
-            while(step1.Length < 64)
+            while (step1.Length < 64)
             {
                 step1 += "6c";
             }
-            if(step1.Length > 64)
+            if (step1.Length > 64)
             {
                 step1 = step1.Substring(0, 64);
             }
@@ -83,10 +88,11 @@ namespace HashMash.Shared
 
         /*
          * Mash an individual character with appropriate operations.
-         * 
+         *
          * c is the char (as an int) being mashed
          * b is the base representation which we are converting to e.g. 10 (decimal), 2 (binary), 16 (hexa) etc.
          */
+
         public string mashCh(int c, int b)
         {
             if (charOffsetEnabled) c += charOffset;
@@ -108,6 +114,6 @@ namespace HashMash.Shared
         //    return returnVal;
         //}
 
-       
+
     }
 }

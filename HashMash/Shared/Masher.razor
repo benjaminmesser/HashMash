@@ -23,10 +23,10 @@
             {
                 <div class="card" style="margin-bottom: 20px;">
                     <h5 class="card-title">Hash Digest</h5>
-                    <p class="card-text">@mashInput()</p>       
+                    <p class="card-text">@mashInput()</p>
                 </div>
             }
-            </div>
+        </div>
     </div>
 
     <div class="row">
@@ -56,7 +56,7 @@
                             <span style="float: right">@modN</span>
 
                         </div>
-                        <input type="range" class="form-range" @bind="modN" @oninput="(EventArgs) => { modN = Int32.Parse(EventArgs.Value.ToString()); }"  min="1" max="256" step="1">
+                        <input type="range" class="form-range" @bind="modN" @oninput="(EventArgs) => { modN = Int32.Parse(EventArgs.Value.ToString()); }" min="1" max="256" step="1">
 
                         <hr />
                         <div class="form-check form-switch">
@@ -91,14 +91,14 @@
                                         // Mash each char -> base 10
                                         <td>
                                             @mashCh(inputValue[i], 10)
-                                           
+
                                         </td>
                                     }
                                 </tr>
                                 <tr>
                                     <th scope="row">Binary</th>
                                     @for (int i = 0; i < max_table_chars; i++)
-                                                        {
+                                    {
                                         // Mash each char -> binary
                                         <td>
                                             @mashCh(inputValue[i], 2)
@@ -109,7 +109,7 @@
                                 <tr>
                                     <th scope="row">Hexadecimal</th>
                                     @for (int i = 0; i < max_table_chars; i++)
-                                                        {
+                                    {
                                         // Mash each char -> hexa
                                         <td>
                                             @mashCh(inputValue[i], 16)
@@ -119,21 +119,21 @@
                                 </tr>
                             </tbody>
                         </table>
-                        
+
                     </div>
                 </div>
             }
-            </div>
+        </div>
     </div>
 
 
-    
+
 
 </div>
 
 
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage;
-@using System.Text.Json;  
+@using System.Text.Json;
 
 
 @code {

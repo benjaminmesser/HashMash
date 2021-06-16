@@ -8,20 +8,20 @@
     </p>
 
     <p>
-        In general, Hashing is the process of applying a Hash Function to a Key to produce a Hash Value. 
-        More specifically, a Key can be thought of as a block of data, and when a Hash Function is applied to it, the block of data is converted into a Hash Value which is an indistinguishable, fixed-length string of characters (generally smaller in size than the original value). 
+        In general, Hashing is the process of applying a Hash Function to a Key to produce a Hash Value.
+        More specifically, a Key can be thought of as a block of data, and when a Hash Function is applied to it, the block of data is converted into a Hash Value which is an indistinguishable, fixed-length string of characters (generally smaller in size than the original value).
         A critical feature of a good Hash Function is that two unique Keys do not produce the same Hash Value, however it is very likely that the hashes you make in our program will not have this property.
-        If two unique Keys have the same Hash Value, it is called a Collision, and additional steps need to be conducted to evaluate that the two keys are unique. 
+        If two unique Keys have the same Hash Value, it is called a Collision, and additional steps need to be conducted to evaluate that the two keys are unique.
         However, if two Keys are identical, they must produce the same Hash Value.
         In reality, every hash function will produce collisions because there are an infinite amount of keys and only a finite number of hashes, but a hash function is considered to be a good one if these collisions are rare, and no way has been found to generate them intentionally.
         Another essential factor of a good Hash Function is that a Hash Function is one-directional, meaning that a given Hash Value cannot be reverse engineered to produce the original Key.
         So, why use Hashing?
-        Hashing can be used to reduce the amount of work needed to authenticate if two files are identical. 
-        Instead of thoroughly evaluating two files, you can apply a Hash Function to each file which will produce Hash Values that are shorter and easier to compare.  
+        Hashing can be used to reduce the amount of work needed to authenticate if two files are identical.
+        Instead of thoroughly evaluating two files, you can apply a Hash Function to each file which will produce Hash Values that are shorter and easier to compare.
         If the Hash Values are identical, then you know that the files (probably) are too.
-        Hashing can also be used as a way to store a list of information such as passwords. 
-        When logging into a website, your password can be computed into a Hash Value by a Hash Function and then stored into an index. 
-        Every time you enter your password, the Hash Value produced will be compared to the stored Hash Value on the website to validate your password. 
+        Hashing can also be used as a way to store a list of information such as passwords.
+        When logging into a website, your password can be computed into a Hash Value by a Hash Function and then stored into an index.
+        Every time you enter your password, the Hash Value produced will be compared to the stored Hash Value on the website to validate your password.
         Using the Hash Function to convert passwords to Hash Values allows users to feel more secure knowing that their actual password is not recorded or saved.
         More importantly, in the unfortunate event that a website's database that stores password Hash Values gets compromised, the integrity of your actual password is not compromised because the Hash Value (which is the only thing the website should be storing) of your password cannot be reverted to your original password.
 
