@@ -9,56 +9,45 @@
     <ul class="nav flex-column">
         <li class="nav-item px-0">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                Masher
+                @MainLayout.MasherTitle
             </NavLink>
         </li>
         <li class="nav-item px-0">
             <NavLink class="nav-link" href="whatishashing" Match="NavLinkMatch.All">
-                What is Hashing?
+                @MainLayout.WhatIsHashingTitle
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="char-offset" Match="NavLinkMatch.All">
-                <span style="padding-right:5px">&#8226;</span> Character Offset
+                <span style="padding-right:5px">&#8226;</span> @MainLayout.CharacterOffsetTitle
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="bit-shifting" Match="NavLinkMatch.All">
-                <span style="padding-right:5px">&#8226;</span> Bit Shifting
+                <span style="padding-right:5px">&#8226;</span> @MainLayout.BitShiftingTitle
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="modular-arithmetic" Match="NavLinkMatch.All">
-                <span style="padding-right:5px">&#8226;</span> Modular Arithmetic
+                <span style="padding-right:5px">&#8226;</span> @MainLayout.ModularArithmeticTitle
             </NavLink>
         </li>
         <li class="nav-item px-0">
             <NavLink class="nav-link" href="representing-letters" Match="NavLinkMatch.All">
-                Representing Letters
+                @MainLayout.RepresentingLettersTitle
             </NavLink>
         </li>
 
         <li class="nav-item px-0">
             <NavLink class="nav-link" href="representing-numbers" Match="NavLinkMatch.All">
-                Representing Numbers
+                @MainLayout.RepresentingNumbersTitle
             </NavLink>
         </li>
 
         <li class="nav-item px-0">
             <NavLink class="nav-link" href="real-world-hashing" Match="NavLinkMatch.All">
-                Real World Hash Functions
+                @MainLayout.RealWorldHashFunctionsTitle
             </NavLink>
         </li>
     </ul>
 </div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}

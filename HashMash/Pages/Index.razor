@@ -1,14 +1,12 @@
 ﻿@page "/"
-@using System.Security.Cryptography
-@using System.Text
-@using System.IO
 
 @inject Blazored.SessionStorage.ISyncSessionStorageService sessionStorage
 
+<Toolbelt.Blazor.HeadElement.Title>@("HashMash - " + MainLayout.MasherTitle)</Toolbelt.Blazor.HeadElement.Title>
 
 <div class="container">
 
-    @if (!continued)
+    @if (!_continued)
     {
         // Welcome page area.
         <div class="row text-center">
@@ -39,16 +37,7 @@
     }
     else
     {
-        <Masher></Masher>
+        <Masher />
     }
 
 </div>
-
-
-
-@code {
-
-    // Flag to show the welcome page or not - default is false (show alert)
-    bool continued => true ? sessionStorage.GetItem<bool>("dismissed") : false;
-
-}

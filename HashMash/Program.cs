@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace HashMash
 {
@@ -26,6 +27,8 @@ namespace HashMash
               })
               .AddBootstrapProviders()
               .AddFontAwesomeIcons();
+
+            builder.Services.AddHeadElementHelper();
 
             builder.Services.AddBlazoredSessionStorage(config =>
                 config.JsonSerializerOptions.WriteIndented = true);
