@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Blazorise;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Blazorise;
 
 namespace HashMash.Shared
 {
@@ -30,7 +30,7 @@ namespace HashMash.Shared
 
         private int _max_table_chars;  // max number of chars to show on the table; length of input or 8, whichever is less
 
-        Validations _validations;
+        private Validations _validations;
 
         // Check session storage for an existing state, set fields if one exists
         protected override async Task OnInitializedAsync()
@@ -101,6 +101,7 @@ namespace HashMash.Shared
          * Given some input string, return "mashed" string with particular operations. Result should be the digest,
          * the hexadecimal representation of the string.
          */
+
         private string MashInput()
         {
             string mashed = "";
@@ -150,6 +151,7 @@ namespace HashMash.Shared
          * c is the char (as an int) being mashed
          * b is the base representation which we are converting to e.g. 10 (decimal), 2 (binary), 16 (hexa) etc.
          */
+
         private string MashCh(int c, int b)
         {
             if (_charOffsetEnabled) c += _charOffset;
